@@ -1,0 +1,151 @@
+/*
+To change this license header, choose License Headers in Project Properties.
+To change this template file, choose Tools | Templates
+and open the template in the editor.
+*/
+/* 
+    Created on : 2019/8/1, 下午 02:48:00
+    Author     : Administrator
+*/
+
+/* width */
+::-webkit-scrollbar {
+  width: 15px;
+}
+
+/* Track */
+::-webkit-scrollbar-track {
+  background: #f1f1f1; 
+}
+ 
+/* Handle */
+::-webkit-scrollbar-thumb {
+  background: #888; 
+}
+
+/* Handle on hover */
+::-webkit-scrollbar-thumb:hover {
+  background: #555; 
+}
+
+
+body {
+    position: absolute;
+    background-color: #fff;
+    padding: 0px;
+    margin: 0px;
+    overflow: hidden;
+    height: 100%;
+    width: 100%;
+    
+    -webkit-user-select: none;
+    -khtml-user-select: none;
+    -moz-user-select: none;
+    -o-user-select: none;
+    user-select: none;    
+    
+}    
+
+
+#id_rootDiv{
+    position: absolute;
+    background-color: #44f;
+    height: 100%;
+    width: 100%;
+    margin: 0px;
+    overflow: hidden;
+}
+
+
+
+#id_sysPageDiv{
+    position: absolute;
+    background-color: #ff0;
+    width: 0px;
+    height: 0px;
+    top:0px;
+    left:0px;
+}
+
+
+
+
+
+.cs_header_div_1 {
+    position: absolute;
+    background: linear-gradient( #049ACC,greenyellow);
+    font-size: 66px;
+    font-weight: bold;
+    text-align: center;
+    overflow: hidden;
+}
+
+
+
+
+/*======================================================================*/
+
+
+#popDiv {
+    position: absolute;
+    background-color: #eef;
+    left: 300px;
+    top: 100px; 
+    height: auto;
+    width: auto;
+    display: none;
+    border: 0px solid #000;
+    box-shadow: 0px 16px 16px 0px rgba(0,0,0,0.7);
+    overflow: hidden;
+}
+
+
+#testDiv {
+    position: absolute;
+    left: -3000px;
+    top: 0px; 
+    height: auto;
+    width: auto;
+}
+
+
+
+#messageDiv{
+    position: absolute;
+    left: -3000px;
+    top: 0px; 
+    height: auto;
+    width: auto;
+    z-index:2;
+}
+
+#memoDiv{
+    position: absolute;
+    background-color: #eef;
+    z-index:2;
+    
+}
+
+
+#colorSetDiv{
+    position: absolute;
+    left: -3000px;
+    top: 0px; 
+    height: auto;
+    width: auto;
+    z-index:2;
+}
+#maskDiv{
+    position: absolute;
+    left: 0px;
+    top: 0px; 
+    height: 100%;
+    width: 100%;
+    background-color: #000;
+    visibility: hidden;
+    opacity:0.6;
+}
+
+
+
+

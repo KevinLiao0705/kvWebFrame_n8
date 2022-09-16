@@ -1,0 +1,32 @@
+displayType:
+  We can save options in a group and load them later.
+  By push the "Save" button and set options group name.
+
+disable_f :
+  When set to 1, will disable all action on this component.   
+  When set to 0, will enable all action on this component.   
+   
+hidden_f :
+  When set to 1, will hide this component.   
+  When set to 0, will show this component.   
+
+properWidth_f :
+  Define the proper width of this component.
+  When this value is less then or equal to 1, it means the father width proportion
+
+properHeight_f :
+  Define the proper Height of this component.
+  When this value is less then or equal to 1, it means the father Height proportion.
+
+dimention type :
+  fixBoth : the content of this component will fit both width and height. 
+  fixWidth : the content of this component will fit width. 
+  fixHeight : the content of this component will fit height. 
+
+location :
+  We can set the location type of this component.
+  When set to "user", the location will be determined by "offsetX" and "offsetY".  
+
+fixWidth :
+  Set the fix width of this component.
+  If set to null, the width is the container width.               

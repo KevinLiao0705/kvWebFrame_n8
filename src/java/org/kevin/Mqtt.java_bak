@@ -1,0 +1,137 @@
+/*
+ * To change this license header, choose License Headers in Project Properties.
+ * To change this template file, choose Tools | Templates
+ * and open the template in the editor.
+ */
+package org.kevin;
+
+import java.util.concurrent.TimeUnit;
+
+import java.net.URISyntaxException;
+import java.util.logging.Level;
+import java.util.logging.Logger;
+import org.fusesource.mqtt.client.BlockingConnection;
+import org.fusesource.mqtt.client.MQTT;
+import org.fusesource.mqtt.client.Message;
+import org.fusesource.mqtt.client.QoS;
+import org.fusesource.mqtt.client.Topic;
+
+/**
+ *
+ * @author Administrator
+ */
+public class Mqtt {
+
+    Listen td1 = null;
+    public int td1_run_f = 0;
+    public int td1_destroy_f = 0;
+
+    String IP = "118.163.89.29";
+    int PORT = 11883;
+    String username="kevin";
+    String password="xcdswe32@";
+    BlockingConnection listenConnection;
+
+    public void sub(String topic_name) {
+        try {
+            MQTT mqtt = new MQTT();
+            mqtt.setHost(IP, PORT); // 設定ip和port
+            mqtt.setClientId("webMaker_server");
+            mqtt.setUserName(username);
+            mqtt.setPassword(password);
+            mqtt.setConnectAttemptsMax(1);
+
+            listenConnection = mqtt.blockingConnection();
+            
+            listenConnection.connect(); // 連接Broker
+            System.out.println("Connected to Broker!");
+            //設置Topic，傳送品質為EXACTLY_ONCE
+            Topic[] topics = {new Topic(topic_name, QoS.EXACTLY_ONCE)};
+            listenConnection.subscribe(topics);
+            Mqtt cla = this;
+            if (cla.td1 == null) {
+                cla.td1 = new Listen(cla);
+                cla.td1.start();
+                cla.td1_run_f = 1;
+                cla.td1_destroy_f = 0;
+            }
+        } catch (URISyntaxException ex) {
+            Logger.getLogger(Mqtt.class.getName()).log(Level.SEVERE, null, ex);
+        } catch (Exception ex) {
+            Logger.getLogger(Mqtt.class.getName()).log(Level.SEVERE, null, ex);
+        }
+    }
+
+    
+    public void disSub() {
+            Mqtt cla = this;
+        try {
+            this.listenConnection.disconnect();
+        } catch (Exception ex) {
+            Logger.getLogger(Mqtt.class.getName()).log(Level.SEVERE, null, ex);
+        }
+            if (cla.td1 != null) {
+                cla.td1_run_f = 0;
+                cla.td1_destroy_f = 1;
+            }
+    
+    }
+    public void pub(String topic_name, String message) {
+        MQTT mqtt = new MQTT();
+        try {
+            mqtt.setHost(IP, PORT); // 設定ip和port
+            mqtt.setUserName(username);
+            mqtt.setPassword(password);
+            BlockingConnection connection = mqtt.blockingConnection();
+            connection.connect(); // 連接Broker
+            System.out.println("Connected to Broker!");
+            while (true) {
+                //發佈訊息，TOPIC為"temperature/Wuling"，設置傳送品質為AT_LEAST_ONCE，不保留訊息
+                connection.publish(topic_name, message.getBytes(), QoS.AT_LEAST_ONCE, false);
+                System.out.println("Sent messages = " + message);
+                Thread.sleep(1000);
+            }
+
+        } catch (URISyntaxException ex) {
+            Logger.getLogger(Mqtt.class.getName()).log(Level.SEVERE, null, ex);
+        } catch (Exception ex) {
+            Logger.getLogger(Mqtt.class.getName()).log(Level.SEVERE, null, ex);
+        }
+
+    }
+
+}
+
+class Listen extends Thread {
+    Mqtt cla;
+    int debug = 0;
+    Listen(Mqtt owner) {
+        cla = owner;
+    }
+    @Override
+    public void run() { // override Thread's run()
+        //Test cla=Test.thisCla;
+        int i;
+        try {
+            for (;;) {
+                if (cla.td1_run_f == 1) {
+                    Message message;
+                    message = cla.listenConnection.receive(10, TimeUnit.SECONDS);
+                    if (message != null) {
+                        System.out.println("Received messages. " + new String(message.getPayload()));
+                        message.ack(); // 返回ack，告知Broker收到訊息
+                    }
+                }
+                if (cla.td1_destroy_f == 1) {
+                    break;
+                }
+                Thread.sleep(20);
+            }
+            cla.td1=null;
+        } catch (InterruptedException ex) {
+            Thread.currentThread().interrupt();
+        } catch (Exception ex) {
+            Logger.getLogger(Listen.class.getName()).log(Level.SEVERE, null, ex);
+        }
+    }
+}

@@ -1,0 +1,37 @@
+{
+    "test1": 1,
+    "test2": 2,
+    "test3": 3,
+    "test4": "4",
+    "myShows": [
+        {
+            "showType": "image",
+            "fontFamily": 0,
+            "titleFontSize": 0,
+            "subFontSize": 0,
+            "fixImageWhRate": 0,
+            "src": 0,
+            "titleColor": 0,
+            "moreSrc": 0,
+            "backgroundColor": 0,
+            "borderWidth": 0,
+            "goodWidth": 0,
+            "minTextWidth": 0,
+            "goodHeight": 0,
+            "heightMode": 0,
+            "twoBlock": 0,
+            "widthMode": 0,
+            "colAmout": 0,
+            "colCnt": 0,
+            "aaa": -1.30,
+            "kext": {
+                "name": "aboutUs#0",
+                "english": "JOSN ELECTRONIC CO., LTD.",
+                "chinese": "九晟電子股份有限公司",
+                "englishSub": "Professional Flexible Innovation Energy-saving Reliable",
+                "chineseSub": "專業 靈活 創新 節能 可靠",
+                "englishDsc": " test  dasdsdasdadsds  "
+            }
+        }
+    ]
+}

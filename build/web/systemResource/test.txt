@@ -1,0 +1,123 @@
+/* 
+ * To change this license header, choose License Headers in Project Properties.
+ * To change this template file, choose Tools | Templates
+ * and open the template in the editor.
+ */
+
+
+/* global WebMakerLib, insts, gr, KvLib */
+
+class Test {
+    constructor(_name, _type, _opts, _paras) {
+    }
+
+    //==========================================================================
+    static testServerResponse() {
+        var opts;
+        var obj = {};
+        obj["name"] = "test server";
+        obj["type"] = "";
+        obj["opts"] = {};
+        opts = obj["opts"];
+        //=================================
+        opts["responseType"] = "message ok";
+        opts["messageTime"] = "10";
+        //opts["responseType"] = "response ok";
+        callServer(JSON.stringify(obj));
+    }
+    //--------------------------------------------------------------------------
+
+
+    static setDatabaseKeyValue(table, key, value, responseType) {
+        var opts;
+        var obj = {};
+        obj["name"] = "Hset database a";
+        obj["type"] = "";
+        obj["opts"] = {};
+        opts = obj["opts"];
+        //=================================
+        if (responseType)
+            opts["responseType"] = responseType;
+        opts["table"] = table;
+        opts["key"] = key;
+        opts["value"] = JSON.stringify(value);
+        callServer(JSON.stringify(obj));
+
+    }
+
+    static getDatabaseKey(table, key, loadElemId) {
+        var opts;
+        var obj = {};
+        obj["name"] = "get database a";
+        obj["type"] = "";
+        obj["opts"] = {};
+        opts = obj["opts"];
+        //=================================
+        opts["table"] = table;
+        opts["key"] = key;
+        if (loadElemId) {
+            opts["loadToElemId"] = loadElemId;
+            opts["responseAction"] = "loadToElem";
+        }
+        callServer(JSON.stringify(obj));
+    }
+    
+    static loadDbValueToElem(table, key, loadElemId,secondKey) {
+        var opts;
+        var obj = {};
+        obj["name"] = "Hget database a";
+        obj["type"] = "";
+        obj["opts"] = {};
+        opts = obj["opts"];
+        //=================================
+        opts["table"] = table;
+        opts["key"] = key;
+        if (secondKey) 
+            opts["secondKey"] = secondKey;
+        if (loadElemId) {
+            opts["loadToElemId"] = loadElemId;
+            opts["responseAction"] = "loadToElem";
+        }
+        callServer(JSON.stringify(obj));
+    }
+    
+    
+    
+
+    static setKeyValue(table, preKey) {
+        var inputBoxRet = function (event) {
+            console.log(event)
+            var para4Obj = event.para[4];
+            while (true) {
+                if (!para4Obj)
+                    break;
+                if (para4Obj.paras[0] === "OK") {
+                    //==========================================
+                    var kcObj = insts[event.para[3]].model;
+                    var elemK = document.getElementById(kcObj.inputTextObjs[0].opts.inputTextId);
+                    var elemV = document.getElementById(kcObj.inputTextObjs[1].opts.inputTextId);
+
+                    var opts;
+                    var obj = {};
+                    obj["name"] = "Hset database a";
+                    obj["type"] = "";
+                    obj["opts"] = {};
+                    opts = obj["opts"];
+                    //=================================
+                    opts["responseType"] = "response ok";
+                    if (table)
+                        opts["table"] = table;
+                    else
+                        opts["table"] = "empty";
+                    if (preKey)
+                        opts["key"] = preKey + "~" + elemK.value;
+                    else
+                        opts["key"] = elemK.value;
+                    opts["value"] = JSON.stringify(elemV.value);
+                    callServer(JSON.stringify(obj));
+                }
+                break;
+            }
+            sysPopOff();
+            sysMaskOff();
+        };
